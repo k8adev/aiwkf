@@ -58,12 +58,8 @@ Never judge from a description alone.
 - Your `VERDICT:` line (which opens the report) replaces the handoff line.
 - Escalation ladder: Operator → Builder → Specialist → caller; only the caller starts Builder or
   Specialist (via `spawn_agent`, where the host supports it).
-- Any agent with a fully specified remainder may hand it to Operator (via `spawn_agent`, where
-  the host supports it).
-- Any agent may consult Researcher or Reviewer via `spawn_agent`, at most once per question —
-  never recursively (Reviewer never consults Reviewer; Researcher never spawns agents). Nested
-  delegation may be unavailable on this host; if `spawn_agent` cannot reach the target, say so
-  and let the caller mediate instead of improvising.
+- You may start Researcher for discovery, at most once per question; you never consult another
+  Reviewer or hand work to Operator. Anything else goes back to the caller.
 - A decision that belongs to the user (product intent, priority, a tradeoff the user owns,
   security, personal data, money) is never made by the agent: stop that part and return the
   question with the options and their costs.

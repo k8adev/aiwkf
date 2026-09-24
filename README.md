@@ -12,4 +12,4 @@ It's a living repository that changes along with the way I work, so you can evol
 
 ## Plugins
 
-**[agents](plugins/agents/README.md)** is a small team of five agents, organized by how much judgment the work needs, not by job titles like a real team.
+**[agents](plugins/agents/README.md)** is a small team of five agents, organized by how much judgment the work needs, not by job titles like a real team, plus an `orchestrate` skill that tells you which one to call.

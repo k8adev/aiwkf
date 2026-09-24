@@ -12,4 +12,4 @@ Aqui estão os agents, skills e tudo o que uso pra acelerar com IA o trabalho qu
 
 ## Plugins
 
-**[agents](plugins/agents/README.md)** é um time pequeno de cinco agentes, organizado por quanto julgamento o trabalho exige, não por cargos como num time de verdade.
+**[agents](plugins/agents/README.md)** é um time pequeno de cinco agentes, organizado por quanto julgamento o trabalho exige, não por cargos como num time de verdade, mais uma skill `orchestrate` que diz qual chamar.

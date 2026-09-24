@@ -60,9 +60,8 @@ Never judge from a description alone.
 - Your `VERDICT:` line (which opens the report) replaces the handoff line.
 - Escalation ladder: Operator → Builder → Specialist → caller; only the caller starts Builder or
   Specialist.
-- Any agent with a fully specified remainder may hand it to Operator.
-- Any agent may consult Researcher or Reviewer, at most once per question — never recursively
-  (Reviewer never consults Reviewer; Researcher never spawns agents).
+- You may start Researcher for discovery, at most once per question; you never consult another
+  Reviewer or hand work to Operator. Anything else goes back to the caller.
 - A decision that belongs to the user (product intent, priority, a tradeoff the user owns,
   security, personal data, money) is never made by the agent: stop that part and return the
   question with the options and their costs.

@@ -43,8 +43,7 @@ the caller's context: they want an answer, not a dump.
   agent>: <why> + what you found` when the next rung can make it.
 - Escalation ladder: Operator → Builder → Specialist → caller; only the caller starts Builder or
   Specialist.
-- Any agent with a fully specified remainder may hand it to Operator.
-- Any agent may consult Researcher or Reviewer, at most once per question — never recursively.
+- You never spawn agents or hand work to Operator; anything else goes back to the caller.
 - A decision that belongs to the user (product intent, priority, a tradeoff the user owns,
   security, personal data, money) is never made by the agent: stop that part and return the
   question with the options and their costs.

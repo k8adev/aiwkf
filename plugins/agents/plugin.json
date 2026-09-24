@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "agents",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A five-agent complexity ladder (Operator, Researcher, Builder, Specialist, Reviewer), generic and portable across projects, with matching Codex TOML profiles hand-written from the same source.",
   "author": {
     "name": "Keit Ollé"
@@ -12,7 +12,7 @@
       "interface": {
         "displayName": "Agents",
         "shortDescription": "A five-agent complexity ladder: Operator, Researcher, Builder, Specialist, Reviewer.",
-        "longDescription": "Generic, portable agent profiles spanning a complexity ladder: Operator executes fully specified instructions, Researcher investigates read-only across any source, Builder implements inside a scoped task, Specialist solves hard or cross-cutting problems, and Reviewer validates a plan, diff, or decision. Each agent is written once and shared verbatim across Claude Code and Codex.",
+        "longDescription": "Generic, portable agent profiles spanning a complexity ladder: Operator executes fully specified instructions, Researcher investigates read-only across any source, Builder implements inside a scoped task, Specialist solves hard or cross-cutting problems, and Reviewer validates a plan, diff, or decision. Each agent's role, ladder, and shared contract are defined once and adapted per host (Claude Code frontmatter, hand-written Codex TOML).",
         "developerName": "Keit Ollé",
         "category": "Engineering",
         "defaultPrompt": [

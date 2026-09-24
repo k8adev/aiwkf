@@ -31,14 +31,17 @@ handling — are in each agent file's Contract section, identical across the lad
 
 ```
 codex plugin marketplace add k8adev/aiwkf
+codex plugin add agents@aiwkf
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/agents"
 ln -s "${CODEX_HOME:-$HOME/.codex}"/.tmp/marketplaces/aiwkf/plugins/agents/codex/*.toml "${CODEX_HOME:-$HOME/.codex}/agents/"
 ```
 
-No `codex plugin add`: this plugin ships nothing but its manifest, and the agents come from the
-symlinks above (Codex reads agent profiles only from `~/.codex/agents/` or a project's
-`.codex/agents/`, never from a plugin directory). `ln -s` fails if a same-named file already
-exists there — check or rename it first, never `-f` blindly. To remove:
+`codex plugin add` delivers the `orchestrate` skill (`skills/orchestrate/SKILL.md`) but not the
+agents themselves — that skill loading is a separate mechanism from the symlinks below, and
+confirming the skill works does not confirm the agents do. Codex reads agent profiles only from
+`~/.codex/agents/` or a project's `.codex/agents/`, never from a plugin directory, so the symlink
+step is still required. `ln -s` fails if a same-named file already exists there — check or rename
+it first, never `-f` blindly. To remove:
 `find "${CODEX_HOME:-$HOME/.codex}/agents" -type l -lname '*marketplaces/aiwkf/plugins/agents/codex/*' -delete`.
 For development, point the symlinks at your own checkout instead.
 

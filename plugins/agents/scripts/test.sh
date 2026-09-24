@@ -127,6 +127,79 @@ PY
 echo "PASS: plugin.json structural check"
 
 # ============================================================================
+# orchestrate skill — frontmatter present, and its agent table matches the
+# agents/*.md and codex/*.toml name fields exactly (no extras, no duplicates)
+# ============================================================================
+python3 - "${AGENTS_PLUGIN}/skills/orchestrate/SKILL.md" "${AGENTS_PLUGIN}/agents" "${AGENTS_PLUGIN}/codex" <<'PY' \
+  || fail "orchestrate skill check failed"
+import pathlib, re, sys, tomllib
+
+skill_path, agents_dir, codex_dir = (pathlib.Path(a) for a in sys.argv[1:4])
+
+text = skill_path.read_text()
+m = re.match(r"^---\n(.*?)\n---\n(.*)$", text, re.S)
+if not m:
+    sys.exit(f"{skill_path}: missing frontmatter fence")
+front, body = m.group(1), m.group(2)
+
+frontmatter = {}
+for line in front.splitlines():
+    if ":" in line:
+        key, value = line.split(":", 1)
+        frontmatter[key.strip()] = value.strip()
+
+if frontmatter.get("name") != "orchestrate":
+    sys.exit(f"{skill_path}: frontmatter 'name' must be 'orchestrate', got {frontmatter.get('name')!r}")
+description = (frontmatter.get("description") or "").strip("'\"")
+if not description:
+    sys.exit(f"{skill_path}: frontmatter 'description' is required and non-empty")
+
+# Pull agent names from the "Request -> agent" table's second column.
+table_names = []
+for line in body.splitlines():
+    line = line.strip()
+    if not line.startswith("|") or not line.endswith("|"):
+        continue
+    cells = [c.strip() for c in line.strip("|").split("|")]
+    if len(cells) != 2:
+        continue
+    if re.fullmatch(r"-+", cells[0]) and re.fullmatch(r"-+", cells[1]):
+        continue  # header separator row
+    if cells[0] == "Request" and cells[1] == "Agent":
+        continue  # header row
+    table_names.append(cells[1].strip("`"))
+
+if not table_names:
+    sys.exit(f"{skill_path}: could not find the Request -> agent table")
+
+dupes = sorted({n for n in table_names if table_names.count(n) > 1})
+if dupes:
+    sys.exit(f"{skill_path}: duplicate agent name(s) in table: {dupes}")
+skill_names = set(table_names)
+
+md_names = set()
+for md in agents_dir.glob("*.md"):
+    fm_match = re.match(r"^---\n(.*?)\n---\n", md.read_text(), re.S)
+    for line in fm_match.group(1).splitlines():
+        if line.startswith("name:"):
+            md_names.add(line.split(":", 1)[1].strip())
+
+toml_names = set()
+for toml in codex_dir.glob("*.toml"):
+    with open(toml, "rb") as fh:
+        toml_names.add(tomllib.load(fh)["name"])
+
+if not (skill_names == md_names == toml_names):
+    sys.exit(
+        "agent name sets differ:\n"
+        f"  skill table: {sorted(skill_names)}\n"
+        f"  agents/*.md: {sorted(md_names)}\n"
+        f"  codex/*.toml: {sorted(toml_names)}"
+    )
+PY
+echo "PASS: orchestrate skill"
+
+# ============================================================================
 # static checks
 # ============================================================================
 bash -n "${HERE}/test.sh" || fail "bash -n test.sh"

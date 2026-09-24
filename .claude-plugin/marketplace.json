@@ -5,13 +5,13 @@
   },
   "metadata": {
     "description": "Generic complexity-ladder agents for Claude Code and Codex.",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "plugins": [
     {
       "name": "agents",
       "source": "./plugins/agents",
-      "description": "A five-agent complexity ladder (Operator, Researcher, Builder, Specialist, Reviewer) with matching Codex TOML profiles generated from the same source."
+      "description": "A five-agent complexity ladder (Operator, Researcher, Builder, Specialist, Reviewer) with matching Codex TOML profiles hand-written from the same source."
     }
   ]
 }
