@@ -1,0 +1,17 @@
+{
+  "name": "aiwkf",
+  "owner": {
+    "name": "Keit Ollé"
+  },
+  "metadata": {
+    "description": "Generic complexity-ladder agents for Claude Code and Codex.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "agents",
+      "source": "./plugins/agents",
+      "description": "A five-agent complexity ladder (Operator, Researcher, Builder, Specialist, Reviewer) with matching Codex TOML profiles generated from the same source."
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+# agents
+
+A five-agent complexity ladder for Claude Code and Codex — generic, no project-specific content.
+Source of truth: `agents/*.md` (Claude Code) and `codex/*.toml` (Codex, hand-written, same roles
+and contract, worded for that host).
+
+## The ladder
+
+| Agent | Use when | Claude pin | Codex pin |
+|---|---|---|---|
+| Operator | Change is fully decided to the exact detail | `haiku` | `gpt-6-luna` / low |
+| Researcher | Read-only investigation of any source | `sonnet` / medium | `gpt-6-sol` / medium / read-only |
+| Builder | Scoped implementation, small judgment calls, no new pattern | `sonnet` / medium | `gpt-6-sol` / medium |
+| Specialist | Cross-cutting, no existing pattern, real correctness risk | `opus` / high | `gpt-6-astra` / high |
+| Reviewer | Validate a plan/diff/text/decision before committing to it | `opus` / high | `gpt-6-astra` / medium / read-only |
+
+Escalation: Operator → Builder → Specialist → caller; only the caller starts Builder or
+Specialist. Full rules — handoff format, consultation cap, user-decision boundary, tool-denial
+handling — are in each agent file's Contract section, identical across the ladder.
+
+## Install
+
+**Claude Code**
+
+```
+/plugin marketplace add k8adev/aiwkf
+/plugin install agents@aiwkf
+```
+
+**Codex**
+
+```
+codex plugin marketplace add k8adev/aiwkf
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/agents"
+ln -s "${CODEX_HOME:-$HOME/.codex}"/.tmp/marketplaces/aiwkf/plugins/agents/codex/*.toml "${CODEX_HOME:-$HOME/.codex}/agents/"
+```
+
+No `codex plugin add`: this plugin ships nothing but its manifest, and the agents come from the
+symlinks above (Codex reads agent profiles only from `~/.codex/agents/` or a project's
+`.codex/agents/`, never from a plugin directory). `ln -s` fails if a same-named file already
+exists there — check or rename it first, never `-f` blindly. To remove:
+`find "${CODEX_HOME:-$HOME/.codex}/agents" -type l -lname '*marketplaces/aiwkf/plugins/agents/codex/*' -delete`.
+For development, point the symlinks at your own checkout instead.
+
+## Limits
+
+- Read-only (Researcher, Reviewer) is enforced by contract, not fully by tooling — Bash/MCP
+  writes aren't blocked by the tool list on Claude, nor by Codex's read-only sandbox.
+- Nested delegation on Codex (`spawn_agent` reaching another profile) is undocumented — verify
+  before relying on it.
+- Codex's `.tmp/marketplaces/` path is internal and undocumented; it may change and break the
+  symlinks (visible, not harmful — re-point them).
+- It is not yet verified that Codex follows symlinked agent files — confirm in a new session.
+- The Claude Code `opus` alias's current resolved model is not documented.
+- Claude Haiku 4.5 has no `effort` parameter, so Operator's Claude frontmatter omits it.
+
+## Tests
+
+```
+bash plugins/agents/scripts/test.sh
+```
