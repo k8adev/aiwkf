@@ -45,6 +45,20 @@ it first, never `-f` blindly. To remove:
 `find "${CODEX_HOME:-$HOME/.codex}/agents" -type l -lname '*marketplaces/aiwkf/plugins/agents/codex/*' -delete`.
 For development, point the symlinks at your own checkout instead.
 
+## Recommended
+
+The `orchestrate` skill triggers from its description, but not every time. To make the main
+session route work through the ladder, add this to your global instructions
+(`~/.claude/CLAUDE.md` on Claude Code, `~/.codex/AGENTS.md` on Codex):
+
+```
+## Delegation
+
+The session orchestrates: it decides, sequences and talks to me; subagents do the work.
+Before any search, change, research or review that needs an agent, invoke the `orchestrate` skill first
+(`agents:orchestrate` on Claude Code).
+```
+
 ## Limits
 
 - Read-only (Researcher, Reviewer) is enforced by contract, not fully by tooling — Bash/MCP
