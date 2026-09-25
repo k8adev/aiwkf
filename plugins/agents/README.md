@@ -27,6 +27,10 @@ handling — are in each agent file's Contract section, identical across the lad
 /plugin install agents@aiwkf
 ```
 
+Install at **user** scope (pick it in `/plugin`): the Delegation block below is global, so a
+project or local install leaves other repos without the agents and delegation falls back to
+`general-purpose`. Restart open sessions after installing or updating.
+
 **Codex**
 
 ```
@@ -37,7 +41,7 @@ ln -s "${CODEX_HOME:-$HOME/.codex}"/.tmp/marketplaces/aiwkf/plugins/agents/codex
 ```
 
 `codex plugin add` delivers the `orchestrate` skill (`skills/orchestrate/SKILL.md`) but not the
-agents themselves — that skill loading is a separate mechanism from the symlinks below, and
+agents themselves — that skill loading is a separate mechanism from the symlinks above, and
 confirming the skill works does not confirm the agents do. Codex reads agent profiles only from
 `~/.codex/agents/` or a project's `.codex/agents/`, never from a plugin directory, so the symlink
 step is still required. `ln -s` fails if a same-named file already exists there — check or rename
@@ -55,7 +59,7 @@ session route work through the ladder, add this to your global instructions
 ## Delegation
 
 The session orchestrates: it decides, sequences and talks to me; subagents do the work.
-Before any search, change, research or review that needs an agent, invoke the `orchestrate` skill first
+Before any search, change, research, review or external write (MCP/API) that needs an agent, invoke the `orchestrate` skill first
 (`agents:orchestrate` on Claude Code).
 ```
 
