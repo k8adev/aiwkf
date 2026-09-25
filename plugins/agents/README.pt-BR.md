@@ -54,23 +54,24 @@ O formato do handoff e o resto das regras ficam na seção Contract de cada arqu
 codex plugin marketplace add k8adev/aiwkf
 codex plugin add agents@aiwkf
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/agents"
-ln -s "${CODEX_HOME:-$HOME/.codex}"/.tmp/marketplaces/aiwkf/plugins/agents/codex/*.toml "${CODEX_HOME:-$HOME/.codex}/agents/"
+cp -i "${CODEX_HOME:-$HOME/.codex}"/.tmp/marketplaces/aiwkf/plugins/agents/codex/*.toml "${CODEX_HOME:-$HOME/.codex}/agents/"
 ```
 
-O plugin só entrega a skill **orchestrate**. O Codex lê perfis de agente de `~/.codex/agents/`
-ou do `.codex/agents/` de um projeto, nunca da pasta de um plugin, então são os symlinks que
-instalam os agentes de fato. A skill funcionar não quer dizer que os agentes estão lá.
+O plugin entrega a skill **orchestrate**. Copie os perfis de agente pra `~/.codex/agents/`
+(ou pro `.codex/agents/` de um projeto) como arquivos comuns.
 
-Se já existe um arquivo com o mesmo nome nessa pasta, o `ln -s` falha. Confira ou renomeie esse
-arquivo antes, em vez de forçar o link com `-f`.
+O `cp -i` pergunta antes de sobrescrever um arquivo existente. Confira antes e guarde uma cópia
+se ele tiver alterações suas. Depois de atualizar o plugin, repita a cópia pra atualizar os
+perfis, abra uma sessão nova do Codex e confira se um agente consegue executar de fato.
 
-Pra remover os agentes:
+Pra desenvolvimento, copie os perfis da pasta `plugins/agents/codex/` do seu checkout e
+repita a cópia depois de cada alteração.
+
+Pra remover os perfis instalados, confira estes cinco arquivos e confirme cada remoção:
 
 ```bash
-find "${CODEX_HOME:-$HOME/.codex}/agents" -type l -lname '*marketplaces/aiwkf/plugins/agents/codex/*' -delete
+rm -i "${CODEX_HOME:-$HOME/.codex}"/agents/{operator,researcher,builder,specialist,reviewer}.toml
 ```
-
-Pra desenvolvimento, aponte os symlinks pro seu próprio checkout.
 
 ## Recomendado
 
@@ -93,10 +94,8 @@ Before any search, change, research, review or external write (MCP/API) that nee
   leitura do Codex também não.
 - Delegação aninhada no Codex, quando o `spawn_agent` chama outro perfil, não é documentada.
   Verifique antes de depender disso.
-- O caminho `.tmp/marketplaces/` do Codex é interno e não documentado. Se ele mudar, os symlinks
-  quebram de um jeito visível mas inofensivo, e basta apontar de novo.
-- Ainda não foi verificado se o Codex segue arquivos de agente via symlink. Confirme numa sessão
-  nova.
+- O caminho `.tmp/marketplaces/` do Codex é interno e não documentado. Se ele mudar, localize
+  os perfis no novo checkout do marketplace antes de copiar. As cópias instaladas continuam intactas.
 - Não está documentado pra qual modelo o alias `opus` do Claude Code resolve hoje.
 - O Claude Haiku 4.5 não tem o parâmetro `effort`, então o frontmatter do **Operator** no Claude
   não o inclui.
