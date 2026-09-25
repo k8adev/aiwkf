@@ -8,11 +8,13 @@ and contract, worded for that host).
 
 | Agent | Use when | Claude pin | Codex pin |
 |---|---|---|---|
-| Operator | Change is fully decided to the exact detail | `haiku` | `gpt-6-luna` / low |
-| Researcher | Read-only investigation of any source | `sonnet` / medium | `gpt-6-sol` / medium / read-only |
-| Builder | Scoped implementation, small judgment calls, no new pattern | `sonnet` / medium | `gpt-6-sol` / medium |
-| Specialist | Cross-cutting, no existing pattern, real correctness risk | `opus` / high | `gpt-6-astra` / high |
-| Reviewer | Validate a plan/diff/text/decision before committing to it | `opus` / high | `gpt-6-astra` / medium / read-only |
+| Operator | Change is fully decided to the exact detail | ![haiku](https://img.shields.io/badge/haiku-2ea44f) | ![gpt-6-luna / low](https://img.shields.io/badge/gpt--6--luna-low-2ea44f) |
+| Researcher | Read-only investigation of any source | ![sonnet / medium](https://img.shields.io/badge/sonnet-medium-1f6feb) | ![gpt-6-sol / medium](https://img.shields.io/badge/gpt--6--sol-medium-1f6feb) ![read-only](https://img.shields.io/badge/read--only-6e7681) |
+| Builder | Scoped implementation, small judgment calls, no new pattern | ![sonnet / medium](https://img.shields.io/badge/sonnet-medium-1f6feb) | ![gpt-6-sol / medium](https://img.shields.io/badge/gpt--6--sol-medium-1f6feb) |
+| Specialist | Cross-cutting, no existing pattern, real correctness risk | ![opus / high](https://img.shields.io/badge/opus-high-8250df) | ![gpt-6-astra / high](https://img.shields.io/badge/gpt--6--astra-high-8250df) |
+| Reviewer | Validate a plan/diff/text/decision before committing to it | ![opus / high](https://img.shields.io/badge/opus-high-8250df) | ![gpt-6-astra / medium](https://img.shields.io/badge/gpt--6--astra-medium-8250df) ![read-only](https://img.shields.io/badge/read--only-6e7681) |
+
+Badge color = tier (green light, blue mid, purple top); left = model alias, right = reasoning effort.
 
 Escalation: Operator → Builder → Specialist → caller; only the caller starts Builder or
 Specialist. Full rules — handoff format, consultation cap, user-decision boundary, tool-denial
