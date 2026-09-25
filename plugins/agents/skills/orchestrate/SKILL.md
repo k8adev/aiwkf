@@ -1,6 +1,6 @@
 ---
 name: orchestrate
-description: Delegation manual for the five agents (Operator, Researcher, Builder, Specialist, Reviewer). Use for any search, change, bulk edit, research, or judgment request that would pull raw material into the main context. Not for plain conversation, a single known-target read, or a one-line already-decided edit.
+description: Delegation manual for the five agents (Operator, Researcher, Builder, Specialist, Reviewer). Use for any search, change, bulk edit, research, or judgment request that would pull raw material into the main context. Not for plain conversation, a single known-target read, or a one-line already-decided file edit. Already-decided external writes (MCP/API calls) are always delegated.
 ---
 
 ## Purpose
@@ -12,7 +12,7 @@ the work yourself.
 
 | Request | Agent |
 |---|---|
-| The change, value, or action is already decided down to the exact detail | Operator |
+| The change, value, or action is already decided down to the exact detail — including external writes (MCP/API calls, e.g. a skill's confirmed write package), however few | Operator |
 | "where is…", "what does X say", "how does Y work", "find out Z" — read-only investigation | Researcher |
 | "implement…", "fix…", "write…", "wire up…" — a design or wording call within a bounded task | Builder |
 | Cross-cutting, no existing pattern, or real correctness risk | Specialist |
@@ -25,7 +25,7 @@ user whether to proceed in the main loop or stop; never silently substitute.
 
 Delegate when the work would pull raw material into the main context: unknown paths, several
 files, a step with decisions in it, an independent opinion worth having. Otherwise handle it
-directly — see this skill's description for the exclusions. When unsure, delegate.
+directly — see this skill's description for the exclusions. External writes are never handled directly: when a skill hands over an already-decided write package, route it to Operator even if the skill describes the writes itself. When unsure, delegate.
 
 Never delegate a decision that belongs to the user: keep user-owned decisions with the caller,
 and tell agents to return unresolved questions with options and costs instead of guessing or
