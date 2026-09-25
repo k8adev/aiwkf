@@ -1,6 +1,6 @@
 ---
 name: orchestrate
-description: Delegation manual for the five agents (Operator, Researcher, Builder, Specialist, Reviewer). Use for any search, change, bulk edit, research, or judgment request that would pull raw material into the main context. Not for plain conversation, a single known-target read, or a one-line already-decided file edit. Already-decided external writes (MCP/API calls) are always delegated.
+description: Delegation manual for the five agents (Operator, Researcher, Builder, Specialist, Reviewer). Use for any search, change, bulk edit, research, or judgment request that would pull raw material into the main context — including checking whether something exists or how it works, even a single grep or "check the implementation." Not for plain conversation, reading one already-known target whose content is itself the answer, or a one-line already-decided file edit. Already-decided external writes (MCP/API calls) are always delegated.
 ---
 
 ## Purpose
@@ -24,8 +24,14 @@ user whether to proceed in the main loop or stop; never silently substitute.
 ## Delegate vs. do it yourself
 
 Delegate when the work would pull raw material into the main context: unknown paths, several
-files, a step with decisions in it, an independent opinion worth having. Otherwise handle it
-directly — see this skill's description for the exclusions. External writes are never handled directly: when a skill hands over an already-decided write package, route it to Operator even if the skill describes the writes itself. When unsure, delegate.
+files, a step with decisions in it, an independent opinion worth having, or any check of whether
+something exists or how it works — "does X exist," "check the implementation," "how does Y
+work" is investigation and goes to Researcher even when it turns out to be a single grep. Only
+skip delegation for the exclusions in this skill's description: an exact, already-known target
+whose content is itself the answer, or a one-line edit already decided to the exact text.
+External writes are never handled directly: when a skill hands over an already-decided write
+package, route it to Operator even if the skill describes the writes itself. When unsure,
+delegate.
 
 Never delegate a decision that belongs to the user: keep user-owned decisions with the caller,
 and tell agents to return unresolved questions with options and costs instead of guessing or
@@ -102,7 +108,10 @@ This manual never widens what a role may do:
 
 Run agents in the background so the session stays reachable. Ask a running agent for status only
 when there's a reason — not continuously — and never read its full transcript; a couple of lines
-back is enough. Correct course with a message rather than letting it finish wrong.
+back is enough. Correct course with a message rather than letting it finish wrong. The
+orchestrator doesn't track a running agent's progress by watching changed files, git status/diff,
+or a polling loop (e.g. the Monitor tool) — completion arrives as a notification, and status is
+checked by messaging the agent, only when there's a reason to.
 
 ## Cost discipline
 
@@ -115,7 +124,8 @@ What's available depends on the tools the current host exposes.
 
 - **Claude Code**: the `Agent` tool with `subagent_type: "agents:<Name>"`. Subagents run in the
   background by default; pass `run_in_background` only if the tool schema exposes it. `model`
-  may be overridden per call; effort can't. Use `SendMessage` to ask status or correct course.
+  may be overridden per call; effort can't. Use `SendMessage` to ask status or correct course,
+  not the `Monitor` tool to poll it.
 - **Codex**: `spawn_agent` returns while the agent works — there is no `run_in_background`.
   Results arrive asynchronously. `wait_agent` waits for notifications and does not return the
   full report; a timeout does not mean completion. `send_message` does not start a turn on a

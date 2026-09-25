@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "agents",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A five-agent complexity ladder (Operator, Researcher, Builder, Specialist, Reviewer), generic and portable across projects, with matching Codex TOML profiles hand-written from the same source.",
   "author": {
     "name": "Keit Ollé"

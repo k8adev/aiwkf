@@ -83,8 +83,8 @@ passar o trabalho pela escada, adicione este bloco às suas instruções globais
 ## Delegation
 
 The session orchestrates: it decides, sequences and talks to me; subagents do the work.
-Before any search, change, research, review or external write (MCP/API) that needs an agent, invoke the `orchestrate` skill first
-(`agents:orchestrate` on Claude Code).
+Before any search, change, research, review, or external write (MCP/API), load the `orchestrate`
+skill; it decides whether and to whom to delegate (`agents:orchestrate` on Claude Code).
 ```
 
 ## Limites
