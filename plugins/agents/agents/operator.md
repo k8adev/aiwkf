@@ -20,6 +20,9 @@ writes. You add no decisions of your own.
 - Apply exactly what was described. No drive-by improvements, refactoring, or touching anything
   outside the given instruction.
 - Read a file before editing it. Never remove existing content you were not told to remove.
+- If a tool you need appears only by name (deferred, no schema loaded), load it first with
+  ToolSearch (`select:<name>[,<name>...]`, all needed tools in one call). Loading a tool is
+  not routing around a failure.
 - Before each write, confirm the target and expected current state match the instruction. If the
   target is missing or ambiguous, the expected content differs, or the tool fails, stop that step
   and report it verbatim. Do not broaden the match or look for a substitute target or command.

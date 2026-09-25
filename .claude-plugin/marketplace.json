@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Generic complexity-ladder agents for Claude Code and Codex.",
-    "version": "0.2.1"
+    "version": "0.2.2"
   },
   "plugins": [
     {
