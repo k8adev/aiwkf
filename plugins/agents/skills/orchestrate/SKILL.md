@@ -47,6 +47,9 @@ contacting the user directly.
 - The session language, and for Reviewer, the real artifact's location (paths, diff range).
 - The plan, when the request has more than one step: the steps, what's independent vs. dependent,
   and which files each step owns.
+- For a change: the relevant rule paths, existing analogs and reuse decisions, passed explicitly — don't
+  rely on implicit context inheritance. The implementer reads the referenced sources; no suitable
+  analog → say so.
 
 Don't pre-consult Reviewer on work you're about to hand to Specialist, since Specialist consults
 it itself.
