@@ -50,6 +50,9 @@ contacting the user directly.
 - For a change: the relevant rule paths, existing analogs and reuse decisions, passed explicitly — don't
   rely on implicit context inheritance. The implementer reads the referenced sources; no suitable
   analog → say so.
+- For a Researcher brief, or any delegated claim, about the behavior of a library, CLI, SDK or
+  harness: ask for the official documentation link for the installed version and the version
+  checked. A claim without that source is reported as unverified.
 
 Don't pre-consult Reviewer on work you're about to hand to Specialist, since Specialist consults
 it itself.
