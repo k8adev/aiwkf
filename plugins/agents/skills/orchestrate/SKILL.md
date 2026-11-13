@@ -47,9 +47,9 @@ contacting the user directly.
 - The session language, and for Reviewer, the real artifact's location (paths, diff range).
 - The plan, when the request has more than one step: the steps, what's independent vs. dependent,
   and which files each step owns.
-- For a change: the relevant rule paths, existing analogs and reuse decisions, passed explicitly — don't
-  rely on implicit context inheritance. The implementer reads the referenced sources; no suitable
-  analog → say so.
+- For a change: the relevant rule paths, existing analogs and reuse decisions, passed explicitly —
+  don't rely on implicit context inheritance. The implementer reads the referenced sources before
+  editing; no suitable analog → say so.
 - For a Researcher brief, or any delegated claim, about the behavior of a library, CLI, SDK or
   harness: ask for the official documentation link for the installed version and the version
   checked. A claim without that source is reported as unverified.
@@ -97,9 +97,18 @@ and the Reviewer disagree, give the user both positions; don't average them into
 
 ## Concurrency
 
-Never assign concurrent writers to the same file or mutable resource. Parallel reads are fine.
-A review inspects a stable snapshot — don't hand Reviewer a moving target. Launch independent
-steps together, in one batch, so they run concurrently.
+Split a change into units only when parallel execution pays for the coordination it adds; a
+small, cohesive change stays with one agent. When you split:
+
+- Settle shared contracts (types, interfaces, API shapes) before the units that use them start.
+- Give concurrent writers disjoint files and mutable resources; parallel reads are fine.
+- Launch independent units together, in one batch, so they run concurrently; sequence dependent
+  units after the ones they consume.
+- Agents on separate units don't coordinate directly or wait on one another: a cross-unit need
+  comes back to you, and you relay it to the agent that needs it or sequence the work.
+  Role-required consultations inside a unit (Specialist → Reviewer) still apply.
+
+A review inspects a stable snapshot — don't hand Reviewer a moving target.
 
 ## Role boundaries
 
